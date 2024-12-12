@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeenConnect</title>
+    <link rel="stylesheet" href="css/cummon.css">
+    <style>
+
+        .btn-primary {
+            display: inline-block;
+            margin-top: 1em;
+            padding: 0.8em 2em;
+            background: #FFC107;
+            color: #000;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #cc7b00;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-between;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em;
+            padding: 2em;
+            margin: 0 2em;
+        }
+
+        .feature {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 1.5em;
+            text-align: center;
+            flex: 1; /* Les éléments prennent une part égale de l'espace disponible */
+            min-width: 270px; /* Largeur minimale pour chaque élément */
+            max-width: 300px; /* Largeur maximale pour éviter que les éléments deviennent trop larges */
+            height: 250px; /* Fixe la hauteur à 300px pour tous les éléments */
+            display: flex; /* Utilisation de flexbox à l'intérieur de .feature pour centrer le contenu */
+            flex-direction: column; /* Dispose les éléments de façon verticale */
+            align-items: center; /* Centre les éléments horizontalement */
+            justify-content: center; /* Centre les éléments verticalement */
+            transition: transform 0.35s ease-out;
+        }
+
+        .feature img {
+            width: 80px;
+            margin-bottom: 1em;
+        }
+
+        .feature:hover {
+            animation: rotate-animation-premier 0.175s ease-out 1 forwards, /* L'animation initiale */
+            rotate-animation-second 0.5s infinite alternate 0.25s;
+        }
+
+        @keyframes rotate-animation-premier {
+            0% {
+                transform : rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(-5deg);
+            }
+
+        }
+
+        @keyframes rotate-animation-first {
+            0% {
+                transform : rotate(-5deg);
+            }
+
+            100% {
+                transform: rotate(10deg);
+            }
+
+        }
+
+        @keyframes rotate-animation-second {
+            0% {
+                transform: rotate(-5deg);
+            }
+
+            100% {
+                transform: rotate(10deg);
+            }
+
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="website.html" class="title"><div class="logo">TeenConnect</div></a>
+        <ul>
+            <li><a href="website.html#features">Fonctionnalités</a></li>
+            <li><a href="website.html#community">Communauté</a></li>
+            <li><a href="create_account.html">S'inscrire</a></li>
+            <li><a href="connect.html">Se connecté</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header>
+        <h1>Bienvenue sur TeenConnect</h1>
+        <p>Le réseau social créé pour les adolescents, par des adolescents ! Échange, partage et amuse-toi en toute sécurité.</p>
+        <a href="create_account.html" class="btn-primary">Rejoins-nous maintenant</a>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="features">
+        <a herf="">
+            <div class="feature">
+                <img src="image_for_website.png" alt="Chats">
+                <h3>Chats Privés</h3>
+                <p>Discute avec tes amis en toute confidentialité grâce à notre système
+                <br> de messagerie sécurisé.</p>
+            </div>
+        </a>
+        <a herf="">
+            <div class="feature">
+                <img src="image_for_website.png" alt="Groupes">
+                <h3>Groupes Amusants</h3>
+                <p>Rejoins des groupes qui partagent tes centres d'intérêt et crée des liens uniques.</p>
+            </div>
+        </a>
+        <!--<a herf="">
+            <div class="feature">
+                <img src="image_for_website.png" alt="Jeux">
+                <h3>Mini Jeux</h3>
+                <p>Affronte tes amis dans des jeux interactifs et grimpe dans les classements.</p>
+            </div>
+        </a> 
+        -->
+        <a herf="">
+            <div class="feature">
+                <img src="image_for_website.png" alt="Rangs">
+                <h3>Rangs & Badges</h3>
+                <p>Gagne des badges uniques en interagissant et atteins le sommet des classements.</p>
+            </div>
+        </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 TeenConnect. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
+
+    </script>
+
+</body>
+</html>

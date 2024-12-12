@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Effet Rainbow</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .rainbow {
+      font-size: 3rem;
+      font-weight: bold;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .rainbow span {
+      display: inline-block;
+      animation: rainbow 2s linear infinite;
+    }
+
+    @keyframes rainbow {
+      0% { color: red; }
+      16% { color: orange; }
+      33% { color: yellow; }
+      50% { color: green; }
+      66% { color: blue; }
+      83% { color: indigo; }
+      100% { color: violet; }
+    }
+  </style>
+</head>
+<body>
+  <div class="rainbow" id="rainbow-text">Effet Rainbow</div>
+
+  <script>
+    const text = document.getElementById("rainbow-text");
+    const content = text.textContent;
+    text.innerHTML = ""; // On efface le contenu initial
+
+    // On divise le texte en spans pour appliquer l'effet à chaque lettre
+    [...content].forEach((letter, i) => {
+      const span = document.createElement("span");
+      span.textContent = letter;
+      span.style.animationDelay = `${i * 0.1}s`; // Décalage de l'effet pour chaque lettre
+      text.appendChild(span);
+    });
+  </script>
+</body>
+</html>

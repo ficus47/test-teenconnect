@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeenConnect</title>
+    <link rel="stylesheet" href="css/cummon.css">
+    <style>
+        
+
+        .create_account {
+            width: 90%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.32);
+            margin: auto; /* Centré verticalement entre header et footer */
+            text-align: center;
+        }
+
+        .create_account .account_text p {
+            margin: 10px 0;
+            text-align: center;
+            color: #fff;
+            font-size: 19px;
+        }
+
+        .create_account .account_button p {
+            margin: 15px 0 5px;
+            text-align: center;
+            color: #383737;
+            font-size: 17px;
+        }
+
+        .create_account input[type="text"] {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fb9afc;
+            font-size: 1.2em
+        }
+
+        .create_account input[type="password"] {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fb9afc;
+            font-size: 1.2em
+        }
+
+        .create_account .rainbow-text {
+            margin: 15px 0 5px;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 24px; /* Agrandit la police pour plus de visibilité */
+            font-weight: bold;
+        
+            /* Effet Arc-en-ciel */
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 260%; /* La taille du dégradé pour un effet fluide */
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent; /* Le texte utilise uniquement le dégradé */
+        
+            /* Animation fluide du dégradé */
+            animation: rainbow-animation 3s infinite linear, glow-animation 1.5s infinite alternate;
+            position: relative; /* Nécessaire pour les ombres */
+
+        }
+
+        .create_account .rainbow-text:hover ~ .color {
+            box-shadow: rgba(0, 0, 0, 0.2);
+            transform: scale(1.245);
+        }
+
+        .valid-button {
+            display: flex; /* Active le flexbox pour faciliter le centrage */
+            justify-content: center; /* Centre horizontalement */
+            align-items: center; /* Centre verticalement */
+            width: 100%; /* Prend toute la largeur */
+            position: relative; /* Nécessaire si tu as d'autres éléments positionnés */
+        }
+
+        .valid-button button span {
+            font-size: 1.2em;
+        }
+
+
+        .valid-button button{
+            margin: 15px 0 5px; /* Marge autour du bouton */
+            padding: 10px 20px; /* Ajuste la taille interne du bouton */
+            font-size: 1em; /* Taille du texte */
+            border-radius: 5px;
+            border: none;
+            margin: 15px 0 5px;
+            height: 2em;
+            width: 10em;
+            display: flex;
+            background-color: #220145;
+            cursor: pointer;
+            color: white; /* Couleur du texte */
+            text-align: center;
+            align-items: center;
+            transition: transform 0.25s ease ,background-color 0.3s ease; /* Animation pour le hover */
+            gap: 8px;
+        }
+
+        .valid-button button:hover {
+            transform: scale(1.2);
+            box-shadow: rgba(0, 0, 0, 0.9);
+        }
+
+        
+
+        @keyframes rainbow-animation {
+            0% {
+                background-position: 0%;
+            }
+            100% {
+                background-position: 100%;
+            }
+        }
+
+        @keyframes glow-animation {
+            0% {
+                text-shadow: 0 0 5px red, 0 0 10px orange, 0 0 20px yellow, 0 0 30px green;
+            }
+            50% {
+                text-shadow: 0 0 10px blue, 0 0 20px indigo, 0 0 30px violet, 0 0 40px red;
+            }
+            100% {
+                text-shadow: 0 0 20px orange, 0 0 30px yellow, 0 0 40px green, 0 0 50px blue;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                gap: 0.5em;
+            }
+            .create_account {
+                padding: 15px;
+                width: 100%;
+            }
+        }
+
+        input[type="color"] {
+            background-color: #a2a4f5;
+            appearance: none; /* Désactive le style par défaut du navigateur */
+            -webkit-appearance: none; /* Pour les navigateurs WebKit */
+            border: none; /* Supprime la bordure */
+            width: 40px; /* Largeur de l'input */
+            height: 40px; /* Hauteur de l'input */
+            border-radius: 50%; /* Donne une forme ronde */
+            cursor: pointer; /* Change le curseur */
+            padding: 5px; /* Ajoute un peu d'espace */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajoute une ombre */
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animation */
+        }
+        
+        input[type="color"]:hover {
+            transform: scale(1.1); /* Zoom quand on passe la souris */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Accentue l'ombre */
+        }
+        
+        input[type="color"]:active {
+            transform: scale(1); /* Réinitialise l'échelle au clic */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Réduit l'ombre */
+        }
+
+        .rainbow {
+          font-size: 3rem;
+          font-weight: bold;
+          display: inline-block;
+          white-space: normal; /* Permet le retour à la ligne */
+          overflow-wrap: break-word; /* Retour à la ligne si le mot est trop long */
+          max-width: 90%; /* Limite la largeur au conteneur parent */
+          text-align: center; /* Centrer le texte */
+          text-shadow: rgba(0, 0, 0, 0.3); 
+        }
+    
+        .rainbow span {
+          display: inline-block;
+          animation: rainbow 2s linear infinite;
+        }
+
+    @keyframes rainbow {
+      0% { color: red; }
+      16% { color: orange; }
+      33% { color: yellow; }
+      50% { color: green; }
+      66% { color: blue; }
+      83% { color: indigo; }
+      100% { color: violet; }
+    }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="website.html" class="title"><div class="logo">TeenConnect</div></a>
+        <ul>
+            <li><a href="website.html#features">Fonctionnalités</a></li>
+            <li><a href="website.html#community">Communauté</a></li>
+            <li><a href="connect.html">Se connecté</a></li>
+        </ul>
+    </nav>
+
+    <!-- Section flottante -->
+    <section class="create_account">
+        <div class="account_text">
+            <p>
+                <strong>
+                    Bienvenue ! Vous devez créer un compte pour entrer !<br>
+                    Vous n'avez pas besoin d'email pour en avoir !
+                </strong>
+            </p>
+        </div>
+        <div class="account_button">
+            <p>
+                <strong><br>Choisissez un nom d'utilisateur :</strong>
+            </p>
+            <label for="username" class="visually-hidden">Nom d'utilisateur</label>
+            <input type="text" name="enter" id="username" placeholder="Entrez votre nom/pseudo">
+
+            <p>
+                <strong><br>Choisissez un Mot de passe d'au moins 10 caracteres :</strong>
+            </p>
+
+            <label for="mdp" class="visually-hidden">Mot de passe</label>
+            <input type="password" name="enter" id="mdp" placeholder="Entrez votre mot de passe" minlength=10>
+
+            <p class="rainbow-text">
+                <strong><br>Maintenant, vous devez choisir une couleur pour votre pseudo !</strong>
+            </p>
+            <p id="rainbow-text2" class="rainbow">Les pseudos en multicolors sont disponible seulement pour les utilisateurs premium ! </p>
+
+            <label for="color" class="visually-hidden">Choisissez une couleur :</label>
+            <input type="color" name="enter" id="color" placeholder="Entrez votre mot de passe" class="color">
+
+        </div>
+        <div class="valid-button">
+            <button>
+                <span>✔</span> Valider
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 TeenConnect. Tous droits réservés.</p>
+    </footer>
+    <script>
+        const text = document.getElementById("rainbow-text2");
+        const content = text.textContent;
+        text.innerHTML = ""; // On efface le contenu initial
+    
+        // On divise le texte en spans pour appliquer l'effet à chaque lettre
+        content.split("").forEach((letter, i) => {
+            const span = document.createElement("span");
+            if (letter === " ") {
+              // Gestion des espaces
+              span.className = "space";
+              span.innerHTML = "&nbsp;"; // Ajoute un espace insécable
+            } else {
+              // Gestion des lettres
+              span.textContent = letter;
+              span.style.animationDelay = `${i * 0.2}s`; // Décalage de l'effet pour chaque lettre
+            }
+            text.appendChild(span);
+    });
+    </script>
+</body>
+</html>
