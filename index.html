@@ -6,6 +6,11 @@
     <title>TeenConnect</title>
     <link rel="stylesheet" href="css/cummon.css">
     <style>
+        .feature, header {
+            width: 95%; /* S'adapte à la largeur de l'écran */
+            box-sizing: border-box; /* Gère les marges et paddings correctement */
+            padding: 10px; /* Ajoute un espacement au lieu de marges fixes */
+        }
 
         .btn-primary {
             display: inline-block;
@@ -28,10 +33,11 @@
         .features {
             display: flex;
             justify-content: space-between;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2em;
-            padding: 2em;
-            margin: 0 2em;
+            padding: 2.2em;
+            margin: 0 2.2em;
+            flex-wrap: wrap;
         }
 
         .feature {
@@ -39,15 +45,17 @@
             border-radius: 15px;
             padding: 1.5em;
             text-align: center;
-            flex: 1; /* Les éléments prennent une part égale de l'espace disponible */
+            flex: 1 1 calc(100% - 40px); /* Passe à 100% de la largeur sur mobile */
+            text-align: center; /* Centrer le contenu */
             min-width: 270px; /* Largeur minimale pour chaque élément */
             max-width: 300px; /* Largeur maximale pour éviter que les éléments deviennent trop larges */
-            height: 250px; /* Fixe la hauteur à 300px pour tous les éléments */
+            height: 270px; /* Fixe la hauteur à 300px pour tous les éléments */
             display: flex; /* Utilisation de flexbox à l'intérieur de .feature pour centrer le contenu */
             flex-direction: column; /* Dispose les éléments de façon verticale */
             align-items: center; /* Centre les éléments horizontalement */
             justify-content: center; /* Centre les éléments verticalement */
             transition: transform 0.35s ease-out;
+            font-size: 1.1em;
         }
 
         .feature img {
@@ -73,22 +81,22 @@
 
         @keyframes rotate-animation-first {
             0% {
-                transform : rotate(-5deg);
+                transform : rotate(-7deg);
             }
 
             100% {
-                transform: rotate(10deg);
+                transform: rotate(7deg);
             }
 
         }
 
         @keyframes rotate-animation-second {
             0% {
-                transform: rotate(-5deg);
+                transform: rotate(-7deg);
             }
 
             100% {
-                transform: rotate(10deg);
+                transform: rotate(7deg);
             }
 
         }
