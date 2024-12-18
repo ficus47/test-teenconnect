@@ -9,12 +9,12 @@
         .feature, header {
             width: 95%; /* S'adapte à la largeur de l'écran */
             box-sizing: border-box; /* Gère les marges et paddings correctement */
-            padding: 10px; /* Ajoute un espacement au lieu de marges fixes */
+            padding: 5px; /* Ajoute un espacement au lieu de marges fixes */
         }
 
         .btn-primary {
             display: inline-block;
-            margin-top: 1em;
+            margin-top: 1em;index
             padding: 0.8em 2em;
             background: #FFC107;
             color: #000;
@@ -24,6 +24,15 @@
             cursor: pointer;
             text-decoration: none;
             transition: background 0.3s;
+            min-width: 270px;
+            min-height: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .btn-primary {
+                max-width: 170px;
+                
+            }
         }
 
         .btn-primary:hover {
@@ -47,7 +56,7 @@
             text-align: center;
             flex: 1 1 calc(100% - 40px); /* Passe à 100% de la largeur sur mobile */
             text-align: center; /* Centrer le contenu */
-            min-width: 270px; /* Largeur minimale pour chaque élément */
+            /*min-width: 270px;  Largeur minimale pour chaque élément */
             max-width: 300px; /* Largeur maximale pour éviter que les éléments deviennent trop larges */
             height: 270px; /* Fixe la hauteur à 300px pour tous les éléments */
             display: flex; /* Utilisation de flexbox à l'intérieur de .feature pour centrer le contenu */
@@ -65,7 +74,7 @@
 
         .feature:hover {
             animation: rotate-animation-premier 0.175s ease-out 1 forwards, /* L'animation initiale */
-            rotate-animation-second 0.5s infinite alternate 0.25s;
+            rotate-animation-second 0.5s infinite alternate ease-out 0.25s;
         }
 
         @keyframes rotate-animation-premier {
@@ -74,29 +83,29 @@
             }
 
             100% {
-                transform: rotate(-5deg);
+                transform: rotate(-4deg);
             }
 
         }
 
         @keyframes rotate-animation-first {
             0% {
-                transform : rotate(-7deg);
+                transform : rotate(-4deg);
             }
 
             100% {
-                transform: rotate(7deg);
+                transform: rotate(4deg);
             }
 
         }
 
         @keyframes rotate-animation-second {
             0% {
-                transform: rotate(-7deg);
+                transform: rotate(-4deg);
             }
 
             100% {
-                transform: rotate(7deg);
+                transform: rotate(4deg);
             }
 
         }
@@ -107,10 +116,10 @@
 
     <!-- Navigation -->
     <nav>
-        <a href="website.html" class="title"><div class="logo">TeenConnect</div></a>
+        <a href="index.html" class="title"><div class="logo">TeenConnect</div></a>
         <ul>
-            <li><a href="website.html#features">Fonctionnalités</a></li>
-            <li><a href="website.html#community">Communauté</a></li>
+            <li><a href="index.html#features">Fonctionnalités</a></li>
+            <li><a href="index.html#community">Communauté</a></li>
             <li><a href="create_account.html">S'inscrire</a></li>
             <li><a href="connect.html">Se connecté</a></li>
         </ul>
@@ -165,6 +174,12 @@
     </footer>
 </body>
 </html>
+
+    </script>
+
+</body>
+</html>
+
 
     </script>
 
