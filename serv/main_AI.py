@@ -65,33 +65,5 @@ async def check_age(request):
         return json({"error": str(e)}, status=500)
 
 
-@app.route("/age", methods=["POST"])
-async def check_img(request):
-    try:
-        img_data = request.json.get("img", None)
-        
-        if not img_data:
-            return json({"error": "Missing img parameter"}, status=400)
-
-        # Décodage base64 en image
-        img_bytes = base64.b64decode(img_data)
-        img_array = np.frombuffer(img_bytes, dtype=np.uint8)
-        img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
-
-        if img is None:
-            return json({"error": "Invalid image data"}, status=400)
-
-        # Redimensionner l'image
-        img_resized = cv2.resize(img, (224, 224))
-        img_resized = np.expand_dims(img_resized, axis=0)  # Ajout d'une dimension batch
-
-        # Prédiction de l'âge
-        age_prediction = model_img.predict(img_resized)[0].tolist()
-
-        return json({"age_prediction": age_prediction})
-
-    except Exception as e:
-        return json({"error": str(e)}, status=500)
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
