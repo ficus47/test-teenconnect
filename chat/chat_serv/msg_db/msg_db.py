@@ -7,16 +7,13 @@ os.makedirs('chat_serv/user', exist_ok=True)
 lien = "chat_serv/user/"#r"C:/Users/Coqen/OneDrive/Bureau/tout_python/chat_serv/user/".replace("\\", "/")
 
 def get_name(sender, receiver):
-	return "-".join([sender, receiver].sort())
+	return "-".join(sorted([sender, receiver]))
 
 def add_user(user):
-		if not user in os.listdir(lien):
-				os.makedirs(lien + user)
-				os.makedirs(lien + user + "/new")
-				os.makedirs(lien + user + "/old")
+	pass
 
 def check_user(user):
-		return user in os.listdir("user")
+		return True
 
 #def talk(sender, reciever, msg):
 #		if check_user(sender) and check_user(reciever):                  #old version, deprecated
@@ -26,10 +23,10 @@ actual_date = date.get_date()
 
 def register(sender, reciever, msg, register_as_new=True):
 		name = get_name(sender, reciever)
-		os.makedirs(name, exist_ok=True)
+		os.makedirs(lien+name, exist_ok=True)
 		if check_user(sender) and check_user(reciever):
-			open(lien + f"{name}/"+actual_date, "w+")
-			json.dump({"msg":msg, "reciever":reciever}, open(lien + f"{reciever+'-'+sender}"+actual_date+".json", "w+"))
+			open(lien + f"{name}/"+actual_date+".json", "w")
+			json.dump({"msg":msg, "sender":sender}, open(lien + f"{name}/"+actual_date+".json", "w+"))
 
 	#if register_as_new:
 	#	if check_user(sender) and check_user(reciever):
@@ -42,8 +39,12 @@ def register(sender, reciever, msg, register_as_new=True):
 
 def see_msg(user, other):
 	if check_user(user):
-		msg_list = os.listdir(lien + get_name(user, other))
-		msg_dict = [{msg:json.load(open(lien + get_name(user, other)+msg))} for msg in msg_list]
-		return msg_dict
+		try:
+			msg_list = os.listdir(lien + get_name(user, other))
+			msg_dict = [{"msg":json.load(open(lien + get_name(user, other)+"/"+msg))["msg"], "date":msg.split(".")[0], "sender":json.load(open(lien + get_name(user, other)+"/"+msg))["sender"]} for msg in msg_list]
+			return msg_dict
+		except Exception as e:
+			os.makedirs(get_name(user, other), exist_ok=True)
+			return []
 	else:
 		return []

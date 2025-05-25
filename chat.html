@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatConnect</title>
+  <link rel="stylesheet" href="css/cummon.css">
+  <link rel="stylesheet" href="css/grp.css">
+  <style>
+    /* Réinitialisation */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before, body::after {
+      animation: none !important;
+    }
+
+    /* Corps principal */
+    body {
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(142.5deg, #fa4bcb, #4d9eff);
+      background-size: 200% 200%;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* Navigation */
+    nav {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1em;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1002;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 1em;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Conteneur principal */
+    .layout {
+      display: flex;
+      flex: 1;
+      padding: 1em;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Colonne gauche */
+    .left-column {
+      background: rgba(0, 0, 0, 0.7);
+      width: 200px;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      position: fixed;
+      top: 50px;
+      left: 0;
+      height: calc(100vh - 55px);
+      transform: translateX(-100%);
+      transition: 0.3s ease;
+      z-index: 0;
+    }
+
+    .left-column.active {
+      transform: translateX(0);
+      z-index: 1000;
+    }
+
+    .left-column .menu-item {
+      background: rgba(139, 183, 252, 0.8);
+      color: #000;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .left-column .menu-item:hover {
+      transform: scale(1.05);
+      background: rgba(200, 219, 250, 0.9);
+    }
+
+    /* Zone de chat */
+    .chat-container {
+      background-color: rgba(238, 234, 248, 0.9);
+      width: 70%;
+      height: 75vh;
+      border-radius: 9px;
+      box-shadow: 5px 7px 5px rgb(94, 91, 103);
+      display: flex;
+      flex-direction: column;
+      padding: 1em;
+      overflow: hidden;
+      margin-left: 220px; /* Pour compenser le menu latéral */
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1em;
+      margin-bottom: 1em;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      border-radius: 15px;
+      max-width: 60%;
+      animation: fadeIn 0.5s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Style du nom d'utilisateur dans le message */
+    .message .username {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* Messages entrants et sortants */
+    .message.incoming {
+      background-color: #fff;
+      color: #000;
+      align-self: flex-start;
+    }
+
+    .message.outgoing {
+      background-color: #4d9eff;
+      color: #fff;
+      align-self: flex-end;
+    }
+
+    /* Zone d'envoi de message */
+    .chat-input {
+      display: flex;
+      gap: 1em;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .chat-input button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #fa4bcb;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .chat-input button:hover {
+      background-color: #e039b2;
+    }
+
+    /* Animation de l'indicateur de saisie */
+    .typing-indicator {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      padding-left: 10px;
+      margin-bottom: 10px;
+    }
+
+    .typing-indicator .dot {
+      width: 8px;
+      height: 8px;
+      background-color: #4d9eff;
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: blink 1.4s infinite both;
+    }
+
+    .typing-indicator .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-indicator .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.4; transform: translateY(0); }
+      20% { opacity: 1; transform: translateY(-3px); }
+      40% { opacity: 0.4; transform: translateY(0); }
+      100% { opacity: 0.4; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    footer {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      text-align: center;
+      padding: 1em;
+      position: relative;
+      width: 100%;
+      margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div id="menu-toggle" class="menu-toggle">☰</div>
+    <a href="accueil.html">Accueil</a>
+    <a href="#">À propos</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <div class="layout">
+    <div class="left-column" id="column">
+      <a href="accueil.html"><div class="menu-item">Accueil</div></a>
+      <div class="menu-item">Messages</div>
+      <a href="grp.html"><div class="menu-item">Groupes</div></a>
+      <div class="menu-item">Boutique</div>
+      <a href="profil.html"><div class="menu-item">Profils</div></a>
+    </div>
+
+    <div class="main-content">
+      <div class="chat-container">
+        <div class="messages" id="messages">
+          <!-- Exemple de message entrant statique -->
+          <div class="message incoming">
+            <span class="username" style="color: #ff5733;">User123</span>
+            <span class="message-content">Bonjour, comment ça va ?</span>
+          </div>
+          <!-- Exemple de message sortant statique -->
+          <div class="message outgoing">
+            <span class="username" style="color: #fff;">vous</span>
+            <span class="message-content">Ça va bien, merci ! Et toi ?</span>
+          </div>
+        </div>
+        <!-- Indicateur de saisie animé -->
+        <div class="typing-indicator" id="typingIndicator" style="display: none;">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <div class="chat-input">
+          <input type="text" id="chatInput" placeholder="Écrire un message...">
+          <button id="sendButton">Envoyer</button>
+        </div>
+
+        <!-- temporaire -->
+        
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 ChatConnect. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    /***********************
+     * Gestion du menu latéral
+     ***********************/
+    const leftColumn = document.getElementById('column');
+    const menuToggle = document.getElementById('menu-toggle');
+    menuToggle.addEventListener('click', () => {
+      leftColumn.classList.toggle('active');
+    });
+
+    /***********************
+     * Fonctions utilitaires
+     ***********************/
+    // Retourne une couleur hexadécimale aléatoire
+    function getRandomColor() {
+      return '#' + Math.floor(Math.random() * 16777215)
+                     .toString(16)
+                     .padStart(6, '0');
+    }
+
+    // Génère un nom d'utilisateur aléatoire
+    function getRandomUsername() {
+      return "User" + Math.floor(Math.random() * 1000);
+    }
+
+    /***********************
+     * Gestion du chat
+     ***********************/
+    const chatInput = document.getElementById('chatInput');
+    const sendButton = document.getElementById('sendButton');
+    const messagesDiv = document.getElementById('messages');
+    const typingIndicator = document.getElementById('typingIndicator');
+
+    // Affiche l'indicateur de saisie pendant que l'utilisateur écrit
+    chatInput.addEventListener('input', () => {
+      if (chatInput.value.trim() !== "") {
+        typingIndicator.style.display = "flex";
+      } else {
+        typingIndicator.style.display = "none";
+      }
+    });
+
+    //// Fonction d'envoi de message
+    //function sendMessage() {
+    //  const messageText = chatInput.value.trim();
+    //  if (messageText === "") return; // Ne rien faire si le champ est vide
+
+    //  // Création du message sortant (l'utilisateur actuel)
+    //  const messageElem = document.createElement('div');
+    //  messageElem.classList.add('message', 'outgoing');
+
+    //  // Création du span pour le nom d'utilisateur ("vous")
+    //  const usernameSpan = document.createElement('span');
+    //  usernameSpan.classList.add('username');
+    //  usernameSpan.textContent = "vous";
+    //  usernameSpan.style.color = "#fff"; // Couleur fixe pour "vous"
+    //  messageElem.appendChild(usernameSpan);
+
+    //  // Création du span pour le contenu du message
+    //  const contentSpan = document.createElement('span');
+    //  contentSpan.classList.add('message-content');
+    //  contentSpan.textContent = messageText;
+    //  messageElem.appendChild(contentSpan);
+
+    //  messagesDiv.appendChild(messageElem);
+    //  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+    //  // Réinitialiser le champ de saisie et cacher l'indicateur de saisie
+    //  chatInput.value = "";
+    //  typingIndicator.style.display = "none";
+
+      /*
+        Ici, vous pouvez ajouter la logique pour envoyer le message à votre serveur
+        (via AJAX ou WebSocket par exemple)
+      */
+
+      // Simulation d'une réponse automatique après 1 seconde
+      //setTimeout(() => {
+      //  const responseElem = document.createElement('div');
+      //  responseElem.classList.add('message', 'incoming');
+//
+      //  // Génération d'un nom d'utilisateur et d'une couleur aléatoire pour la réponse
+      //  const randomUsername = getRandomUsername();
+      //  const randomColor = getRandomColor();
+//
+      //  const responseUsernameSpan = document.createElement('span');
+      //  responseUsernameSpan.classList.add('username');
+      //  responseUsernameSpan.textContent = randomUsername;
+      //  responseUsernameSpan.style.color = randomColor;
+      //  responseElem.appendChild(responseUsernameSpan);
+//
+      //  const responseContentSpan = document.createElement('span');
+      //  responseContentSpan.classList.add('message-content');
+      //  responseContentSpan.textContent = "Réponse automatique.";
+      //  responseElem.appendChild(responseContentSpan);
+//
+      //  messagesDiv.appendChild(responseElem);
+      //  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      //}, 1000);
+    //}
+
+    // Envoi du message en appuyant sur "Enter"
+    chatInput.addEventListener('keydown', (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault(); // Évite le retour à la ligne dans l'input
+        console.log("sending")
+        sendMessage();
+      }
+    });
+
+    function append_msg(message, username, data) {
+            // Création du span pour le nom d'utilisateur ("vous")
+            const messageElem = document.createElement('div');
+            messageElem.classList.add('message', 'outgoing');
+
+            const usernameSpan = document.createElement('span');
+            usernameSpan.classList.add('username');
+            usernameSpan.textContent = username;
+            usernameSpan.style.color = data["color"]; // Couleur fixe pour "vous"
+            console.log(data["color"]);
+            messageElem.appendChild(usernameSpan);
+ 
+            // Création du span pour le contenu du message
+            const contentSpan = document.createElement('span');
+            contentSpan.classList.add('message-content');
+            contentSpan.textContent = message;
+            messageElem.appendChild(contentSpan);
+            messagesDiv.appendChild(messageElem);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // Réinitialiser le champ de saisie et cacher l'indicateur de saisie
+            chatInput.value = "";
+            typingIndicator.style.display = "none";
+        }
+
+        const ws = new WebSocket("wss://fluffy-potato-g4q5wrgrpgxq3946p-9999.app.github.dev/ws");
+
+        ws.onopen = () => {
+            const id = prompt("Ton ID ?");
+            const password = prompt("Ton mot de passe ?");
+            const who = prompt("avec qui veut tu communiquer ?");
+            ws.send(JSON.stringify({ from: id, password: password, with:who}));
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log(data);
+            if (data){
+                console.log(data["type"]);
+                if (data["type"] == "check_msg"){
+                    data["msg"].forEach(message => {
+                        for (const date in message){
+                            if (date == "msg"){
+                                append_msg(message[date], message["sender"], data);
+                            }
+                        }
+                    });
+                }
+                else {
+                    //const msgDiv = document.getElementById("messages");
+                    //const msg = document.createElement("div");
+                    //msg.textContent = "📨 " + data["msg"];
+                    //msgDiv.appendChild(msg);
+                    console.log(data["type"])
+                    append_msg(data["msg"], data["from"], data)
+                }
+            }
+                
+        };
+
+        function sendMessage() {
+              const messageText = chatInput.value.trim();
+              if (messageText === "") return;
+
+              // Message sortant
+              const messageElem = document.createElement('div');
+              messageElem.classList.add('message', 'outgoing');
+
+              const usernameSpan = document.createElement('span');
+              usernameSpan.classList.add('username');
+              usernameSpan.textContent = "vous";
+              usernameSpan.style.color = "#fff";
+              messageElem.appendChild(usernameSpan);
+
+              const contentSpan = document.createElement('span');
+              contentSpan.classList.add('message-content');
+              contentSpan.textContent = messageText;
+              messageElem.appendChild(contentSpan);
+
+              messagesDiv.appendChild(messageElem);
+              chatInput.value = "";
+              typingIndicator.style.display = "none";
+              messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+              // Envoie au serveur WebSocket (si connecté)
+              const data = {
+                action: "send_solo",
+                //to: to,
+                msg: messageText
+            };
+            ws.send(JSON.stringify(data));
+            }
+
+      sendButton.addEventListener('click', sendMessage);
+      chatInput.addEventListener('keydown', e => {
+        if (e.key === "Enter") sendMessage();
+      });
+  </script>
+</body>
+</html>

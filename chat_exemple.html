@@ -6,6 +6,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: rgba(4, 60, 134, 0.671);
             margin: 30px;
         }
         #messages {
@@ -27,29 +28,54 @@
     <button onclick="sendMessage()">Envoyer</button>
 
     <script>
+        function append_msg(message) {
+            const msgDiv = document.getElementById("messages");
+            const msg = document.createElement("div");
+            msg.textContent = "📨 " + message;
+            msgDiv.appendChild(msg);
+            msgDiv.scrollTop = msgDiv.scrollHeight;
+        }
         const ws = new WebSocket("wss://fluffy-potato-g4q5wrgrpgxq3946p-9999.app.github.dev/ws");
 
         ws.onopen = () => {
             const id = prompt("Ton ID ?");
             const password = prompt("Ton mot de passe ?");
-            ws.send(JSON.stringify({ from: id, password: password }));
+            const who = prompt("avec qui veut tu communiquer ?");
+            ws.send(JSON.stringify({ from: id, password: password, with:who}));
         };
 
         ws.onmessage = (event) => {
-            const msgDiv = document.getElementById("messages");
-            const msg = document.createElement("div");
-            msg.textContent = "📨 " + event.data;
-            msgDiv.appendChild(msg);
-            msgDiv.scrollTop = msgDiv.scrollHeight;
+            const data = JSON.parse(event.data);
+            console.log(data);
+            if (data){
+                console.log(data["type"]);
+                if (data["type"] == "check_msg"){
+                    data["msg"].forEach(message => {
+                        for (const date in message){
+                            if (date == "msg"){
+                                append_msg(message[date]);
+                            }
+                        }
+                    });
+                }
+                else {
+                    const msgDiv = document.getElementById("messages");
+                    const msg = document.createElement("div");
+                    msg.textContent = "📨 " + data["msg"];
+                    msgDiv.appendChild(msg);
+                    msgDiv.scrollTop = msgDiv.scrollHeight;
+                }
+            }
+                
         };
 
         function sendMessage() {
-            const to = document.getElementById("to").value;
+            //const to = document.getElementById("to").value;
             const message = document.getElementById("message").value;
 
             const data = {
                 action: "send_solo",
-                to: to,
+                //to: to,
                 msg: message
             };
 
