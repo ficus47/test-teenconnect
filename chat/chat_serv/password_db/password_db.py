@@ -22,7 +22,7 @@ def check_user_password(user, password):
         
         # Comparer les deux hashs
         password_hash = hash_password(password)
-        print(stored_password_hash, password_hash, password_hash == stored_password_hash)
+        #print(stored_password_hash, password_hash, password_hash == stored_password_hash)
         return password_hash == stored_password_hash
     else:
         # Si l'utilisateur n'existe pas, créer son fichier et y écrire le mot de passe hashé
@@ -41,7 +41,7 @@ def add_password_to_user(user, password):
         
         # Comparer les deux hashs
         password_hash = hash_password(password)
-        print(stored_password_hash, password_hash, password_hash == stored_password_hash)
+        #print(stored_password_hash, password_hash, password_hash == stored_password_hash)
         return password_hash == stored_password_hash
     else:
         # Si l'utilisateur n'existe pas, créer son fichier et y écrire le mot de passe hashé

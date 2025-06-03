@@ -17,15 +17,19 @@ def block_user(user, user_to_block):
 		json.dump(set_user, open("blocked_user/"+user+'.json', "w"))
 
 def is_user_blocked_by_other(user, other):
+	print(user, json.load(open("blocked_user/"+user+'.json', "r")), other)
 	try:
-		return other in json.load(open("blocked_user/"+user+'.json'))
+		return other in json.load(open("blocked_user/"+user+'.json', "r"))
+
 	except Exception:
-		open("blocked_user/"+user+'.json', "w").write("['']")
+		open("blocked_user/"+user+'.json', "w").write('[""]')
 		return False
 
 def unblock_user(user, other):
 	if is_user_blocked_by_other(user, other):
 		set_user = json.load(open("blocked_user/"+user+'.json'))
-		del set_user[set_user.index(other)]
-		json.dump(open("blocked_user/"+user+'.json'), set_user)
+		set_user.pop(set_user.index(other))
+		json.dump(set_user, open("blocked_user/"+user+'.json', "w"))
 		
+	else:
+		print("r")

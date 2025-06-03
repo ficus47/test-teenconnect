@@ -15,10 +15,10 @@ app = Sanic("ChatServer")
 client = {}
 
 # Initialisation fictive (à ajuster selon ton besoin)
-msg_db.add_user("moi1")
-password_db.add_password_to_user("moi1", "password1")
-msg_db.add_user("moi2")
-password_db.add_password_to_user("moi2", "password2")
+#msg_db.add_user("moi1")
+#password_db.add_password_to_user("moi1", "password1")
+#msg_db.add_user("moi2")
+#password_db.add_password_to_user("moi2", "password2")
 #user_block.block_user("moi1", "moi2")
 
 
@@ -27,11 +27,13 @@ async def chat_handler(request, ws):
     user_id = None  # Important pour éviter les crashs dans le finally
 
     if True:
+        action = None
         # Récupérer l'ID et mot de passe utilisateur
         init_data = await ws.recv()
         ID = json.loads(init_data)
         user_id = ID.get("from")
         with_who = ID.get("with")
+        print("with : ", with_who)
 
         # Vérifie que l'ID est bien fourni
         if not user_id:
@@ -45,22 +47,31 @@ async def chat_handler(request, ws):
 
         log.register_log(user_id, request)  # on log par ID et pas ws (plus logique)
         #envoie des ancien msg
-        msg_dict = msg_db.see_msg(user_id, with_who)
-        await ws.send(json.dumps({"type":"check_msg", "msg":msg_dict, "color":color.get_user_color(user_id)}))
+        #msg_dict = msg_db.see_msg(user_id, with_who)
+        #await ws.send(json.dumps({"type":"check_msg", "msg":msg_dict, "color":color.get_user_color(user_id)}))
 
 
         # Boucle principale de réception de messages
         while True:
+            
+            check = password_db.check_user_password(user_id, ID["password"])
+            if not check:
+                await ws.send(json.dumps({"type":action, "error": "Wrong password or username !"}))
+                
             raw_message = await ws.recv()
             what = json.loads(raw_message)
 
             action = what.get("action")
+            print(what)
+            #with_who = what.get("with")
+            
             if not action:
                 await ws.send(json.dumps({"type":action, "error": "No action specified"}))
                 continue
+            
+            print("action : ", action)
 
             if action == "send_solo":
-                check = password_db.check_user_password(user_id, ID["password"])
 
                 if not user_block.is_user_blocked_by_other(user_id, with_who):
                     if with_who in client and check:
@@ -81,7 +92,7 @@ async def chat_handler(request, ws):
                     msg_db.register(user_id, with_who, what["msg"])
 
             elif action == "check_msg":
-                msg_list = msg_db.see_msg(user_id)
+                msg_list = msg_db.see_msg(user_id, with_who)
                 await ws.send(json.dumps({"type":action, "msg":msg_list, "color":color.get_user_color(user_id)}))
 
             elif action == "check_msg_admin":
